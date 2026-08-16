@@ -3,6 +3,7 @@ import Features from '@/components/home/Features';
 import Hero from '@/components/home/Hero';
 import HowItWorks from '@/components/home/HowItWorks';
 import Pricing from '@/components/home/Pricing';
+import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <Pricing />
         <Cta />
       </main>
+      <Footer />
     </>
   );
 }
