@@ -1,3 +1,4 @@
+import Features from '@/components/home/Features';
 import Hero from '@/components/home/Hero';
 import Navbar from '@/components/layout/Navbar';
 
@@ -7,6 +8,7 @@ export default function Home() {
       <Navbar />
       <main className="flex min-h-screen flex-col">
         <Hero />
+        <Features />
       </main>
     </>
   );
