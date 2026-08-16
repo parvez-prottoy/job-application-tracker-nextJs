@@ -1,3 +1,9 @@
+import Navbar from '@/components/layout/Navbar';
+
 export default function Home() {
-  return <h1>job-application-tracker</h1>;
+  return (
+    <>
+      <Navbar />
+    </>
+  );
 }
