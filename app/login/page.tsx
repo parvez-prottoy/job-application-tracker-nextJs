@@ -64,6 +64,27 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+  const handleSocialLogin = async (provider: 'google' | 'github') => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const { error: authError } = await authClient.signIn.social({
+        provider,
+        callbackURL: '/',
+      });
+      if (authError) {
+        setError(
+          authError.message || `An error occurred during ${provider} login.`
+        );
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50/50 selection:bg-primary/10 selection:text-primary">
@@ -234,7 +255,8 @@ export default function LoginPage() {
           <div className="mt-6 grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              className="w-full h-11 rounded-lg border-slate-200 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+              className="w-full h-11 rounded-lg border-slate-200 hover:bg-slate-50 hover:text-slate-900 transition-colors cursor-pointer"
+              onClick={() => handleSocialLogin('google')}
               disabled={isLoading}
             >
               <svg
@@ -263,7 +285,8 @@ export default function LoginPage() {
             </Button>
             <Button
               variant="outline"
-              className="w-full h-11 rounded-lg border-slate-200 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+              className="w-full h-11 rounded-lg border-slate-200 hover:bg-slate-50 hover:text-slate-900 transition-colors cursor-pointer"
+              onClick={() => handleSocialLogin('github')}
               disabled={isLoading}
             >
               <svg
