@@ -1,11 +1,38 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, ArrowRight, EyeOff, Lock, Mail, User } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function RegisterPage() {
+  const [inputValues, setInputValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(inputValues);
+    setInputValues({
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    });
+  };
   return (
     <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50/50 selection:bg-primary/10 selection:text-primary">
       {/* Premium Background Effects */}
@@ -54,7 +81,7 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Full Name */}
             <div className="space-y-1.5">
               <Label
@@ -70,8 +97,11 @@ export default function RegisterPage() {
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Enter Full Name"
                   required
+                  value={inputValues.name}
+                  name="name"
+                  onChange={handleChange}
                   className="pl-10 h-11 bg-white border-slate-200 hover:border-slate-300 focus-visible:ring-4 focus-visible:ring-primary/10 focus-visible:border-primary transition-all rounded-lg text-[15px] shadow-sm placeholder:text-slate-400"
                 />
               </div>
@@ -92,7 +122,10 @@ export default function RegisterPage() {
                 <Input
                   id="email"
                   type="email"
+                  name="email"
                   placeholder="name@example.com"
+                  value={inputValues.email}
+                  onChange={handleChange}
                   required
                   className="pl-10 h-11 bg-white border-slate-200 hover:border-slate-300 focus-visible:ring-4 focus-visible:ring-primary/10 focus-visible:border-primary transition-all rounded-lg text-[15px] shadow-sm placeholder:text-slate-400"
                 />
@@ -114,7 +147,10 @@ export default function RegisterPage() {
                 <Input
                   id="password"
                   type="password"
+                  name="password"
                   placeholder="Create a password"
+                  value={inputValues.password}
+                  onChange={handleChange}
                   required
                   className="pl-10 pr-11 h-11 bg-white border-slate-200 hover:border-slate-300 focus-visible:ring-4 focus-visible:ring-primary/10 focus-visible:border-primary transition-all rounded-lg text-[15px] shadow-sm placeholder:text-slate-400"
                 />
@@ -143,7 +179,10 @@ export default function RegisterPage() {
                 <Input
                   id="confirmPassword"
                   type="password"
+                  name="confirmPassword"
                   placeholder="Confirm your password"
+                  value={inputValues.confirmPassword}
+                  onChange={handleChange}
                   required
                   className="pl-10 pr-11 h-11 bg-white border-slate-200 hover:border-slate-300 focus-visible:ring-4 focus-visible:ring-primary/10 focus-visible:border-primary transition-all rounded-lg text-[15px] shadow-sm placeholder:text-slate-400"
                 />
