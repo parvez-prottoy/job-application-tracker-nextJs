@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { authClient } from '@/lib/auth/auth-client';
 import {
   AlertCircle,
   ArrowLeft,
@@ -16,13 +17,16 @@ import {
   User,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState(false);
-  const [isLoading, seIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,7 +43,7 @@ export default function RegisterPage() {
       [id]: type === 'checkbox' ? checked : value,
     }));
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     if (formData.password !== formData.confirmPassword) {
@@ -54,6 +58,29 @@ export default function RegisterPage() {
       setError('You must accept the Terms of Service and Privacy Policy.');
       return;
     }
+    setIsLoading(true);
+    //
+    try {
+      const { error: authError } = await authClient.signUp.email({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+      });
+
+      if (authError) {
+        setError(authError.message || 'An error occurred during registration.');
+        setIsLoading(false);
+        return;
+      }
+      // On success, redirect
+      router.push('/dashboard');
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+
     setFormData({
       name: '',
       email: '',
