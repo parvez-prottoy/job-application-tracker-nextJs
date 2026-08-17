@@ -3,7 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { authClient } from '@/lib/auth/auth-client';
 import {
+  AlertCircle,
   ArrowLeft,
   ArrowRight,
   Eye,
@@ -13,19 +15,54 @@ import {
   Mail,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null);
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+    if (!formData.email || !formData.password) {
+      setError('Please enter both email and password.');
+      return;
+    }
     setIsLoading(true);
-    // Simulate API call delay for UI feedback
-    setTimeout(() => {
+    try {
+      const { error: authError } = await authClient.signIn.email({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (authError) {
+        setError(authError.message || 'Invalid email or password.');
+        setIsLoading(false);
+        return;
+      }
+      // On success, redirect
+      router.push('/');
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+      console.log(err);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -75,6 +112,17 @@ export default function LoginPage() {
               Enter your credentials to access your account.
             </p>
           </div>
+          {error && (
+            <div className="mb-6 p-3 rounded-lg bg-red-50 border border-red-100 flex items-start gap-3 animate-in fade-in zoom-in-95 duration-300">
+              <AlertCircle
+                className="h-5 w-5 text-red-500 shrink-0 mt-0.5"
+                strokeWidth={2}
+              />
+              <p className="text-sm text-red-600 font-medium leading-relaxed mb-0">
+                {error}
+              </p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Address */}
@@ -92,6 +140,8 @@ export default function LoginPage() {
                 <Input
                   id="email"
                   type="email"
+                  onChange={handleChange}
+                  value={formData.email}
                   placeholder="name@example.com"
                   required
                   className="pl-10 h-11 bg-white border-slate-200 hover:border-slate-300 focus-visible:ring-4 focus-visible:ring-primary/10 focus-visible:border-primary transition-all rounded-lg text-[15px] shadow-sm placeholder:text-slate-400"
@@ -123,6 +173,8 @@ export default function LoginPage() {
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
+                  onChange={handleChange}
+                  value={formData.password}
                   placeholder="Enter your password"
                   required
                   className="pl-10 pr-11 h-11 bg-white border-slate-200 hover:border-slate-300 focus-visible:ring-4 focus-visible:ring-primary/10 focus-visible:border-primary transition-all rounded-lg text-[15px] shadow-sm placeholder:text-slate-400"
