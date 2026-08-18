@@ -73,7 +73,7 @@ export default function RegisterPage() {
         return;
       }
       // On success, redirect
-      router.push('/');
+      router.push('/dashboard');
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
       console.log(err);
@@ -95,7 +95,7 @@ export default function RegisterPage() {
     try {
       const { error: authError } = await authClient.signIn.social({
         provider,
-        callbackURL: '/',
+        callbackURL: '/dashboard',
       });
       if (authError) {
         setError(
