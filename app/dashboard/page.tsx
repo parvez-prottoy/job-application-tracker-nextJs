@@ -1,3 +1,5 @@
+import ApplicationQuickCards from '@/components/dashboard/ApplicationQuickCards';
+import RecentApplications from '@/components/dashboard/RecentApplications';
 import { Button } from '@/components/ui/button';
 import { getSession } from '@/lib/auth/auth-server';
 import { ArrowRight, Sparkles } from 'lucide-react';
@@ -44,6 +46,10 @@ export default async function DashboardPage() {
           </Button>
         </div>
       </div>
+      {/* Application Quick Cards */}
+      <ApplicationQuickCards />
+      {/* Recent Applications */}
+      <RecentApplications />
     </div>
   );
 }
