@@ -3,12 +3,17 @@ import RecentApplications from '@/components/dashboard/RecentApplications';
 import UpcomingInterviews from '@/components/dashboard/UpcomingInterviews';
 import { Button } from '@/components/ui/button';
 import { getSession } from '@/lib/auth/auth-server';
+import { getApplications } from '@/app/actions/application';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default async function DashboardPage() {
   const session = await getSession();
 
   const fullName = session?.user?.name || 'User';
+  
+  const applicationsResult = await getApplications();
+  const applications = applicationsResult.success && applicationsResult.data ? applicationsResult.data : [];
+  
   return (
     <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-500">
       {/* Welcome Section & AI Prompt */}
@@ -48,15 +53,15 @@ export default async function DashboardPage() {
         </div>
       </div>
       {/* Application Quick Cards */}
-      <ApplicationQuickCards />
+      <ApplicationQuickCards applications={applications} />
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8">
         <div className="xl:col-span-2 space-y-6 sm:space-y-8">
           {/* Recent Applications */}
-          <RecentApplications />
+          <RecentApplications applications={applications} />
         </div>
         <div className="xl:col-span-1 space-y-6 sm:space-y-8">
           {/* UpcomingInterviews */}
-          <UpcomingInterviews />
+          <UpcomingInterviews applications={applications} />
         </div>
       </div>
     </div>

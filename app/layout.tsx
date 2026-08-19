@@ -13,6 +13,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: 'swap',
 });
 
+import { Toaster } from '@/components/ui/sonner';
+
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
@@ -22,6 +24,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground" suppressHydrationWarning>
         {children}
+        <Toaster />
       </body>
     </html>
   );

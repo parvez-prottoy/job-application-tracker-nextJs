@@ -1,48 +1,69 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Briefcase, CalendarClock, Sparkles, Trophy } from 'lucide-react';
+import { Briefcase, CalendarClock, Target, Trophy, XCircle, Send } from 'lucide-react';
+import { KanbanItem } from '@/components/applications/KanbanCard';
 
-const stats = [
-  {
-    name: 'Total Applications',
-    value: '48',
-    change: '+12%',
-    changeType: 'positive',
-    icon: Briefcase,
-    color: 'text-blue-600',
-    bg: 'bg-blue-600/10',
-  },
-  {
-    name: 'Interviews Scheduled',
-    value: '4',
-    change: '+2',
-    changeType: 'positive',
-    icon: CalendarClock,
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-600/10',
-  },
-  {
-    name: 'Offers Received',
-    value: '1',
-    change: '+1',
-    changeType: 'positive',
-    icon: Trophy,
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-600/10',
-  },
-  {
-    name: 'AI Optimized Resumes',
-    value: '14',
-    change: '+5 this week',
-    changeType: 'neutral',
-    icon: Sparkles,
-    color: 'text-amber-600',
-    bg: 'bg-amber-600/10',
-  },
-];
-export default function ApplicationQuickCards() {
+interface ApplicationQuickCardsProps {
+  applications: KanbanItem[];
+}
+
+export default function ApplicationQuickCards({ applications }: ApplicationQuickCardsProps) {
+  const counts = {
+    total: applications.length,
+    wishlist: applications.filter((a) => a.status === 'wishlist').length,
+    applied: applications.filter((a) => a.status === 'applied').length,
+    interviewing: applications.filter((a) => a.status === 'interviewing').length,
+    offer: applications.filter((a) => a.status === 'offer').length,
+    rejected: applications.filter((a) => a.status === 'rejected').length,
+  };
+
+  const stats = [
+    {
+      name: 'Total Applications',
+      value: counts.total.toString(),
+      icon: Briefcase,
+      color: 'text-blue-600',
+      bg: 'bg-blue-600/10',
+    },
+    {
+      name: 'Wishlist',
+      value: counts.wishlist.toString(),
+      icon: Target,
+      color: 'text-slate-600',
+      bg: 'bg-slate-600/10',
+    },
+    {
+      name: 'Applied',
+      value: counts.applied.toString(),
+      icon: Send,
+      color: 'text-purple-600',
+      bg: 'bg-purple-600/10',
+    },
+    {
+      name: 'Interviewing',
+      value: counts.interviewing.toString(),
+      icon: CalendarClock,
+      color: 'text-amber-600',
+      bg: 'bg-amber-600/10',
+    },
+    {
+      name: 'Offer',
+      value: counts.offer.toString(),
+      icon: Trophy,
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-600/10',
+    },
+    {
+      name: 'Rejected',
+      value: counts.rejected.toString(),
+      icon: XCircle,
+      color: 'text-red-600',
+      bg: 'bg-red-600/10',
+    },
+  ];
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
       {stats.map((stat) => {
         const Icon = stat.icon;
         return (
@@ -50,38 +71,26 @@ export default function ApplicationQuickCards() {
             key={stat.name}
             className="border-slate-200/60 shadow-sm hover:shadow-md transition-shadow"
           >
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-500 mb-1">
+                  <p className="text-xs font-medium text-slate-500 mb-1">
                     {stat.name}
                   </p>
                   <div className="flex items-baseline gap-2">
                     <h3 className="text-2xl font-bold text-slate-900 tracking-tight">
                       {stat.value}
                     </h3>
-                    <span
-                      className={cn(
-                        'text-xs font-semibold px-2 py-0.5 rounded-full',
-                        stat.changeType === 'positive'
-                          ? 'bg-emerald-100 text-emerald-700'
-                          : stat.changeType === 'negative'
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-slate-100 text-slate-700'
-                      )}
-                    >
-                      {stat.change}
-                    </span>
                   </div>
                 </div>
                 <div
                   className={cn(
-                    'w-12 h-12 rounded-xl flex items-center justify-center shrink-0',
+                    'w-10 h-10 rounded-xl flex items-center justify-center shrink-0',
                     stat.bg,
                     stat.color
                   )}
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="w-5 h-5" />
                 </div>
               </div>
             </CardContent>
