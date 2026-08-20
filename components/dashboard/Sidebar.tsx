@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
       >
         {/* Header / Logo */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-100">
-          <Link href="/dashboard" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-8 h-8 rounded-lg bg-primary shadow-sm flex items-center justify-center transition-transform group-hover:scale-105">
               <span className="text-primary-foreground font-bold text-xl leading-none">
                 C

@@ -70,12 +70,14 @@ interface KanbanBoardProps {
 export function KanbanBoard({ initialItems, onApplicationUpdate, onApplicationDelete }: KanbanBoardProps) {
   const [items, setItems] = useState<KanbanItem[]>(initialItems);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   // Use a ref to always have access to the absolute latest items state in DragEnd
   const itemsRef = useRef<KanbanItem[]>(initialItems);
 
   // Sync state with server prop changes (e.g. after revalidatePath)
   useEffect(() => {
+    setIsMounted(true);
     setItems(initialItems);
     itemsRef.current = initialItems;
   }, [initialItems]);
@@ -212,9 +214,14 @@ export function KanbanBoard({ initialItems, onApplicationUpdate, onApplicationDe
 
   const activeItem = activeId ? items.find((i) => i.id === activeId) : null;
 
+  if (!isMounted) {
+    return null; // Prevent dnd-kit hydration mismatches
+  }
+
   return (
     <div className="w-full">
       <DndContext
+        id="dnd-board"
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragStart={handleDragStart}

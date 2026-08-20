@@ -1,5 +1,6 @@
 'use client';
 import { CalendarDays, KanbanSquare, LayoutDashboard } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 export default function HeroTabs() {
@@ -52,10 +53,12 @@ export default function HeroTabs() {
         <div
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeTab === 'dashboard' ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
         >
-          <img
+          <Image
             src="/dashboard.png"
             alt="Dashboard Preview"
-            className="w-full h-full object-cover object-top"
+            fill
+            priority
+            className="object-cover object-top"
           />
         </div>
 
@@ -63,10 +66,12 @@ export default function HeroTabs() {
         <div
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeTab === 'applications' ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
         >
-          <img
-            src="/applications.png"
+          <Image
+            src="/application.png"
             alt="Applications Preview"
-            className="w-full h-full object-cover object-top"
+            fill
+            priority
+            className="object-cover object-top"
           />
         </div>
 
@@ -74,10 +79,12 @@ export default function HeroTabs() {
         <div
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeTab === 'interviews' ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
         >
-          <img
-            src="/interviews.png"
+          <Image
+            src="/application.png"
             alt="Interviews Preview"
-            className="w-full h-full object-cover object-top"
+            fill
+            priority
+            className="object-cover object-top"
           />
         </div>
       </div>

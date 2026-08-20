@@ -3,10 +3,20 @@
 import { ArrowRight, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useSession } from '@/lib/auth/auth-client';
+
+function getInitials(name?: string) {
+  if (!name) return 'U';
+  const parts = name.split(' ').filter(Boolean);
+  if (parts.length === 0) return 'U';
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: session, isPending } = useSession();
 
   // Handle scroll effect
   useEffect(() => {
@@ -67,18 +77,41 @@ export default function Navbar() {
 
           {/* Desktop Auth Actions */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/login"
-              className="text-sm font-semibold text-foreground hover:text-primary transition-all duration-200 px-5 py-2.5 rounded-lg border border-transparent hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              Log In
-            </Link>
-            <Link
-              href="/register"
-              className="text-sm font-bold text-white bg-primary transition-all duration-300 px-6 py-2.5 rounded-lg shadow-[0_4px_14px_0_rgba(37,99,235,0.25)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.35)] hover:bg-primary/90 hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_2px_8px_rgba(37,99,235,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex items-center gap-2"
-            >
-              Get Started <ArrowRight className="w-4 h-4" />
-            </Link>
+            {isPending ? (
+              <div className="w-44 h-10 animate-pulse bg-secondary/50 rounded-lg"></div>
+            ) : session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="text-sm font-bold text-white bg-primary transition-all duration-300 px-5 py-2.5 rounded-lg shadow-[0_4px_14px_0_rgba(37,99,235,0.25)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.35)] hover:bg-primary/90 hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_2px_8px_rgba(37,99,235,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex items-center gap-2"
+                >
+                  Dashboard
+                </Link>
+                <div className="flex items-center gap-2 pl-3 ml-2 border-l border-border/60">
+                  <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm border border-primary/20">
+                    {getInitials(session.user?.name)}
+                  </div>
+                  <span className="text-sm font-semibold text-foreground max-w-[120px] truncate">
+                    {session.user?.name}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-sm font-semibold text-foreground hover:text-primary transition-all duration-200 px-5 py-2.5 rounded-lg border border-transparent hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  Log In
+                </Link>
+                <Link
+                  href="/register"
+                  className="text-sm font-bold text-white bg-primary transition-all duration-300 px-6 py-2.5 rounded-lg shadow-[0_4px_14px_0_rgba(37,99,235,0.25)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.35)] hover:bg-primary/90 hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_2px_8px_rgba(37,99,235,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 flex items-center gap-2"
+                >
+                  Get Started <ArrowRight className="w-4 h-4" />
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -113,20 +146,49 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="mt-6 pt-6 border-t border-border/50 flex flex-col gap-3">
-              <Link
-                href="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full text-center px-4 py-3 rounded-md text-base font-medium text-foreground border border-border/80 bg-background/50 hover:bg-secondary/80 transition-all shadow-sm"
-              >
-                Log In
-              </Link>
-              <Link
-                href="/register"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full text-center px-4 py-3 rounded-md text-base font-medium text-primary-foreground bg-primary transition-all shadow-[0_4px_14px_0_rgba(37,99,235,0.2)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.3)] hover:bg-primary/95"
-              >
-                Get Started
-              </Link>
+              {isPending ? (
+                <div className="w-full h-24 animate-pulse bg-secondary/50 rounded-md"></div>
+              ) : session ? (
+                <>
+                  <div className="flex items-center gap-3 px-4 py-3 mb-1 rounded-lg bg-secondary/30 border border-border/40">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold border border-primary/20 shrink-0">
+                      {getInitials(session.user?.name)}
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-sm font-bold text-foreground truncate">
+                        {session.user?.name}
+                      </span>
+                      <span className="text-xs text-muted-foreground truncate">
+                        {session.user?.email}
+                      </span>
+                    </div>
+                  </div>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block w-full text-center px-4 py-3 rounded-md text-base font-medium text-white bg-primary hover:bg-primary/95 transition-all shadow-sm flex items-center justify-center gap-2"
+                  >
+                    Go to Dashboard <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block w-full text-center px-4 py-3 rounded-md text-base font-medium text-foreground border border-border/80 bg-background/50 hover:bg-secondary/80 transition-all shadow-sm"
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block w-full text-center px-4 py-3 rounded-md text-base font-medium text-primary-foreground bg-primary transition-all shadow-[0_4px_14px_0_rgba(37,99,235,0.2)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.3)] hover:bg-primary/95"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
