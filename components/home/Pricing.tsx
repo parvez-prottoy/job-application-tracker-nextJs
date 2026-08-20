@@ -10,6 +10,7 @@ import {
 import { pricingPlans } from '@/data/pricing';
 import { Check } from 'lucide-react';
 import Link from 'next/link';
+import AuthAwareLink from './AuthAwareLink';
 
 export default function Pricing() {
   return (
@@ -83,13 +84,14 @@ export default function Pricing() {
                 <Button
                   size="lg"
                   variant={plan.popular ? 'outline' : 'outline'}
+                  render={<AuthAwareLink href={plan.href} className="w-full flex items-center justify-center" />}
                   className={`w-full font-bold h-12 transition-all text-white ${
                     plan.popular
                       ? 'shadow-[0_4px_14px_0_rgba(37,99,235,0.2)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 '
                       : 'border-slate-200 text-slate-700 hover:bg-slate-50'
                   }`}
                 >
-                  <Link href={plan.href}>{plan.cta}</Link>
+                  {plan.cta}
                 </Button>
               </CardFooter>
             </Card>

@@ -16,7 +16,7 @@ export default function Features() {
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
           <h2 className="mb-4">Everything you need to land your next role</h2>
           <p className="text-lg md:text-xl text-muted-foreground">
-            CareerFlow AI replaces messy spreadsheets with a powerful, AI-driven
+            CareerFlow replaces messy spreadsheets with a powerful, AI-driven
             workspace designed specifically for the modern job seeker.
           </p>
         </div>

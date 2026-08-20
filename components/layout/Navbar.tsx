@@ -1,9 +1,9 @@
 'use client';
 
+import { useSession } from '@/lib/auth/auth-client';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useSession } from '@/lib/auth/auth-client';
 
 function getInitials(name?: string) {
   if (!name) return 'U';
@@ -57,7 +57,7 @@ export default function Navbar() {
                 </span>
               </div>
               <span className="font-bold text-2xl tracking-tight text-foreground transition-colors group-hover:text-foreground/80">
-                CareerFlow<span className="text-primary">.ai</span>
+                Career<span className="text-primary">Flow</span>
               </span>
             </Link>
           </div>

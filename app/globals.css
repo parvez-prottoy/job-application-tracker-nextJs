@@ -44,7 +44,7 @@
 
 @layer base {
   :root {
-    /* Premium SaaS Light Theme (CareerFlow AI) */
+    /* Premium SaaS Light Theme (CareerFlow) */
 
     /* Base */
     --background: #f8fafc; /* Slate 50 */
@@ -267,7 +267,7 @@
 }
 
 :root {
-  /* Premium SaaS Light Theme (CareerFlow AI) */
+  /* Premium SaaS Light Theme (CareerFlow) */
   --background: #f8fafc; /* Slate 50 */
   --foreground: #0f172a; /* Slate 900 */
   --card: #ffffff;

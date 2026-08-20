@@ -7,7 +7,7 @@ export default function HowItWorks() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <h2 className="mb-4 text-slate-900">How CareerFlow AI Works</h2>
+          <h2 className="mb-4 text-slate-900">How CareerFlow Works</h2>
           <p className="text-lg md:text-xl text-slate-600">
             A simple, streamlined workflow designed to take you from job seeker
             to hired faster than ever.

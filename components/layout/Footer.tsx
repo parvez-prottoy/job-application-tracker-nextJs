@@ -38,7 +38,7 @@ export default function Footer() {
                 </span>
               </div>
               <span className="font-bold text-xl tracking-tight text-slate-900 transition-colors group-hover:text-slate-700">
-                CareerFlow <span className="text-primary">AI</span>
+                Career<span className="text-primary">Flow</span>
               </span>
             </Link>
             <p className="text-slate-600 mb-8 max-w-sm text-balance">

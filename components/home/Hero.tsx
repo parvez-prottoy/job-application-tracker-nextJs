@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import HeroTabs from './HeroTabs';
+import AuthAwareLink from './AuthAwareLink';
 
 export default function Hero() {
   return (
@@ -21,7 +22,7 @@ export default function Hero() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
-          CareerFlow AI is now in public beta
+          CareerFlow is now in public beta
         </div>
 
         {/* Headline */}
@@ -38,13 +39,13 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 md:mb-24">
-          <Link
+          <AuthAwareLink
             href="/register"
             className="flex items-center gap-2 bg-primary text-white px-8 py-3.5 rounded-xl font-bold hover:bg-primary/90 transition-all shadow-[0_8px_20px_-6px_rgba(37,99,235,0.4)] hover:shadow-[0_12px_25px_-8px_rgba(37,99,235,0.5)] hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Start Tracking Free
             <ArrowRight className="w-5 h-5" />
-          </Link>
+          </AuthAwareLink>
           <Link
             href="#how-it-works"
             className="px-8 py-3.5 rounded-xl font-semibold text-slate-700 bg-white border border-slate-200 shadow-sm hover:bg-slate-50 hover:text-slate-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

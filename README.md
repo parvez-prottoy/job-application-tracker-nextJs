@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Features
 
-## Getting Started
+- User Registration and Login
+- Google Authentication
+- GitHub Authentication
+- User-specific Dashboard
+- Application Management
+  - Create Application
+  - Edit Application
+  - Delete Application
+  - Application Status Management (Drag and Drop)
+  - Real-time Application Summary
+- Interview Management
+  - Schedule Interview
+  - Edit and Delete Interview
+  - Upcoming Interviews
+  - Dashboard Upcoming Interviews
+- Settings
+  - Update Name
+  - Update Email
+  - Change Password
+- AI Tools page (Work in Progress)
+- Documents page (Work in Progress)
+- Analytics page (Work in Progress)
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Technology | Usage |
+|------------|-------|
+| Next.js | Frontend and full-stack framework |
+| TypeScript | Type-safe development |
+| Tailwind CSS | Styling |
+| shadcn/ui & Base UI | UI components |
+| dnd-kit | Drag and drop functionality |
+| MongoDB | Database |
+| Mongoose | MongoDB data modeling |
+| Better Auth | Authentication |
+| Sonner | Toast notifications |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# How to Use
 
-## Learn More
+### 1. Create an Account
+The user can register using email and password or use available social login options (Google and GitHub).
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Login
+After logging in, the user can access their personal dashboard. All data is securely tied to the user's account.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Manage Applications
+Users can track their job search progress:
+- **Add a new job application** with details like company name, job title, and notes.
+- **View applications** visually on the application board.
+- **Change application status** using the visual drag-and-drop board.
+- **Edit an application** to update details or correct mistakes.
+- **Delete an application** if it is no longer needed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Manage Interviews
+Users can stay organized with their interview schedule:
+- **Schedule an interview** and connect it to a specific application.
+- **View upcoming interviews** natively in the Interviews tab.
+- **Edit an interview** to change meeting links, dates, or format.
+- **Delete an interview** if it is canceled.
 
-## Deploy on Vercel
+### 5. Dashboard
+The dashboard provides a quick overview where the user can view their application statistics and see their nearest upcoming interviews.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 6. Settings
+The user can manage their account information and security settings, including:
+- Name
+- Email
+- Password

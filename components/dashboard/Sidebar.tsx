@@ -63,7 +63,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               </span>
             </div>
             <span className="font-bold text-xl tracking-tight text-slate-900">
-              CareerFlow <span className="text-primary">AI</span>
+              Career<span className="text-primary">Flow</span>
             </span>
           </Link>
           <button

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Star } from 'lucide-react';
+import AuthAwareLink from './AuthAwareLink';
 
 export default function Cta() {
   return (
@@ -38,18 +39,18 @@ export default function Cta() {
 
             <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl text-balance leading-relaxed">
               Join thousands of professionals who have ditched the messy
-              spreadsheets and accelerated their job search with CareerFlow AI.
+              spreadsheets and accelerated their job search with CareerFlow.
             </p>
 
             {/* CTA Button */}
             <div className="flex items-center sm:flex-row gap-4 w-full">
-              <Button
-                size="lg"
+              <AuthAwareLink
+                href="/register"
                 className="flex justify-center gap-2 items-center group mx-auto h-14 px-6 text-base font-bold shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all text-primary bg-white hover:bg-white/90 rounded-xl"
               >
                 Start Tracking for Free
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </Button>
+              </AuthAwareLink>
             </div>
 
             <p className="mt-8 text-sm font-medium text-white/70">

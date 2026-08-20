@@ -122,7 +122,7 @@ export default function LoginPage() {
                 </span>
               </div>
               <span className="font-bold text-2xl tracking-tight text-slate-900 transition-colors group-hover:text-slate-700">
-                CareerFlow <span className="text-primary">AI</span>
+                Career<span className="text-primary">Flow</span>
               </span>
             </Link>
 
