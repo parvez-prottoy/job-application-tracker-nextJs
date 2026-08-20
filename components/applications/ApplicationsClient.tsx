@@ -15,6 +15,7 @@ export default function ApplicationsClient({ initialApplications }: Applications
 
   // Sync if server provides new initial items
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setApplications(initialApplications);
   }, [initialApplications]);
 
@@ -47,7 +48,7 @@ export default function ApplicationsClient({ initialApplications }: Applications
       ) : (
         <div className="text-center py-20 bg-slate-50/50 rounded-xl border border-slate-100 border-dashed">
           <h3 className="text-lg font-bold text-slate-900 mb-1">No applications found</h3>
-          <p className="text-slate-500 text-sm">You haven't tracked any job applications yet.</p>
+          <p className="text-slate-500 text-sm">You haven&apos;t added any job applications yet. Get started by tracking your first one!</p>
         </div>
       )}
     </div>

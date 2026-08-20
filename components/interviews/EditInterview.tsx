@@ -13,9 +13,9 @@ import { toast } from 'sonner';
 interface EditInterviewProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  applications: any[];
-  interview: any;
-  onUpdate: (interview: any) => void;
+  applications: Record<string, unknown>[];
+  interview: Record<string, unknown> | null;
+  onUpdate: (interview: Record<string, unknown>) => void;
 }
 
 export default function EditInterview({ open, onOpenChange, applications, interview, onUpdate }: EditInterviewProps) {
@@ -34,16 +34,17 @@ export default function EditInterview({ open, onOpenChange, applications, interv
 
   useEffect(() => {
     if (interview && open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData({
-        applicationId: interview.applicationId?._id || interview.applicationId || '',
-        interviewType: interview.interviewType || 'Online',
-        interviewDate: interview.interviewDate || '',
-        interviewTime: interview.interviewTime || '',
-        interviewerName: interview.interviewerName || '',
-        interviewerEmail: interview.interviewerEmail || '',
-        meetingLink: interview.meetingLink || '',
-        preparationNotes: interview.preparationNotes || '',
-        status: interview.status || 'scheduled',
+        applicationId: ((interview.applicationId as Record<string, unknown>)?._id as string) || (interview.applicationId as string) || '',
+        interviewType: (interview.interviewType as string) || 'Online',
+        interviewDate: (interview.interviewDate as string) || '',
+        interviewTime: (interview.interviewTime as string) || '',
+        interviewerName: (interview.interviewerName as string) || '',
+        interviewerEmail: (interview.interviewerEmail as string) || '',
+        meetingLink: (interview.meetingLink as string) || '',
+        preparationNotes: (interview.preparationNotes as string) || '',
+        status: (interview.status as string) || 'scheduled',
       });
     }
   }, [interview, open]);
@@ -65,18 +66,18 @@ export default function EditInterview({ open, onOpenChange, applications, interv
 
     setIsSubmitting(true);
     try {
-      const result = await updateInterview(interview._id, formData);
+      const result = await updateInterview(interview!._id as string, formData);
       if (result.success) {
         toast.success('Interview updated successfully');
         
         // Attach the full application object to the updated interview so it renders correctly
-        const selectedApp = applications.find(a => a._id === formData.applicationId);
+        const selectedApp = applications.find(a => (a._id as string) === formData.applicationId);
         const completeInterview = {
           ...result.data,
           applicationId: selectedApp
         };
         
-        onUpdate(completeInterview);
+        onUpdate(completeInterview as Record<string, unknown>);
         onOpenChange(false);
       } else {
         toast.error(result.error || 'Failed to update interview');
@@ -111,8 +112,8 @@ export default function EditInterview({ open, onOpenChange, applications, interv
                     <div className="p-2 text-sm text-slate-500 text-center">No applications found</div>
                   ) : (
                     applications.map((app) => (
-                      <SelectItem key={app._id} value={app._id}>
-                        {app.company} — {app.role}
+                      <SelectItem key={app._id as string} value={app._id as string}>
+                        {app.company as string} - {app.role as string}
                       </SelectItem>
                     ))
                   )}

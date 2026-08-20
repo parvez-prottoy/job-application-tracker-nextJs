@@ -17,7 +17,7 @@ async function requireAuth() {
   return session.user;
 }
 
-export async function createInterview(data: any) {
+export async function createInterview(data: Record<string, unknown>) {
   try {
     const user = await requireAuth();
     await connectDB();
@@ -48,9 +48,9 @@ export async function createInterview(data: any) {
     revalidatePath('/dashboard', 'layout');
     
     return { success: true, data: JSON.parse(JSON.stringify(newInterview)) };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating interview:', error);
-    return { success: false, error: error.message || 'Failed to create interview' };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -65,13 +65,13 @@ export async function getInterviews() {
       .lean();
 
     return { success: true, data: JSON.parse(JSON.stringify(interviews)) };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching interviews:', error);
-    return { success: false, error: error.message || 'Failed to fetch interviews' };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
-export async function updateInterview(id: string, data: any) {
+export async function updateInterview(id: string, data: Record<string, unknown>) {
   try {
     const user = await requireAuth();
     await connectDB();
@@ -88,9 +88,9 @@ export async function updateInterview(id: string, data: any) {
 
     revalidatePath('/dashboard', 'layout');
     return { success: true, data: JSON.parse(JSON.stringify(interview)) };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating interview:', error);
-    return { success: false, error: error.message || 'Failed to update interview' };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -110,8 +110,8 @@ export async function deleteInterview(id: string) {
 
     revalidatePath('/dashboard', 'layout');
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting interview:', error);
-    return { success: false, error: error.message || 'Failed to delete interview' };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }

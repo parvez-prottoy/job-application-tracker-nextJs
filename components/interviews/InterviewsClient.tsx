@@ -10,7 +10,7 @@ import InterviewCard from './InterviewCard';
 export interface IInterviewData {
   _id: string;
   userId: string;
-  applicationId: any;
+  applicationId: Record<string, unknown> | string;
   interviewType: 'Online' | 'Phone' | 'Onsite';
   interviewDate: string;
   interviewTime: string;
@@ -24,7 +24,7 @@ export interface IInterviewData {
 
 interface InterviewsClientProps {
   initialInterviews: IInterviewData[];
-  applications: any[];
+  applications: Record<string, unknown>[];
 }
 
 export default function InterviewsClient({
@@ -54,10 +54,9 @@ export default function InterviewsClient({
     setInterviews((prev) => prev.filter((i) => i._id !== id));
   };
 
-  const now = new Date();
-
   // Tabs filtering logic
   const filteredInterviews = useMemo(() => {
+    const now = new Date();
     return interviews
       .filter((interview) => {
         if (interview.status === 'cancelled') return false;
@@ -93,11 +92,12 @@ export default function InterviewsClient({
   }, [interviews, activeTab]);
 
   // Summary Metrics
+  const currentNow = new Date();
   const totalInterviews = interviews.length;
   const upcomingCount = interviews.filter(
     (i) =>
       i.status === 'scheduled' &&
-      new Date(`${i.interviewDate}T${i.interviewTime}`) >= now
+      new Date(`${i.interviewDate}T${i.interviewTime}`) >= currentNow
   ).length;
   const completedCount = interviews.filter(
     (i) => i.status === 'completed'
@@ -265,7 +265,7 @@ export default function InterviewsClient({
           open={isAddOpen}
           onOpenChange={setIsAddOpen}
           applications={applications}
-          onInterviewAdd={updateInterviewsState}
+          onInterviewAdd={updateInterviewsState as any}
         />
       )}
     </div>

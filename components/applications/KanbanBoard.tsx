@@ -77,7 +77,9 @@ export function KanbanBoard({ initialItems, onApplicationUpdate, onApplicationDe
 
   // Sync state with server prop changes (e.g. after revalidatePath)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setItems(initialItems);
     itemsRef.current = initialItems;
   }, [initialItems]);

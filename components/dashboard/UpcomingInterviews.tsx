@@ -48,7 +48,7 @@ export default function UpcomingInterviews({ interviews }: UpcomingInterviewsPro
         ) : (
           <div className="divide-y divide-slate-100">
             {upcomingInterviews.map((interview) => {
-              const application = interview.applicationId;
+              const application = interview.applicationId as any;
               const company = application?.company || 'Unknown';
               const role = application?.role || 'Unknown';
               const logo = application?.logo || company.charAt(0);

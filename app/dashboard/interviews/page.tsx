@@ -8,6 +8,16 @@ import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Interviews | CareerFlow',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 export default async function InterviewsPage() {
   const session = await auth.api.getSession({
     headers: await headers(),

@@ -46,7 +46,7 @@ export default function RecentApplications({ applications }: RecentApplicationsP
             </div>
             <h3 className="text-lg font-bold text-slate-900 mb-1">No applications yet</h3>
             <p className="text-sm text-slate-500 mb-6 max-w-sm">
-              You haven't tracked any job applications yet. Start adding your applications to see them here.
+              You haven&apos;t tracked any job applications yet. Start adding your applications to see them here.
             </p>
             <Link href="/dashboard/applications">
               <Button className="bg-primary hover:bg-primary/90 text-white font-semibold shadow-sm">

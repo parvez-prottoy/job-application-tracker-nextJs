@@ -6,6 +6,15 @@ import { getSession } from '@/lib/auth/auth-server';
 import { getApplications } from '@/app/actions/application';
 import { getInterviews } from '@/app/actions/interview';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Dashboard | CareerFlow',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function DashboardPage() {
   const session = await getSession();

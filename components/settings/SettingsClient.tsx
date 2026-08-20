@@ -31,7 +31,9 @@ export default function SettingsClient() {
 
   useEffect(() => {
     if (session?.user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(session.user.name || '');
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setEmail(session.user.email || '');
     }
   }, [session]);
@@ -53,8 +55,12 @@ export default function SettingsClient() {
       } else {
         toast.success('Profile updated successfully');
       }
-    } catch (err: any) {
-      toast.error(err.message || 'An error occurred');
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message || 'An error occurred');
+      } else {
+        toast.error('An error occurred');
+      }
     } finally {
       setIsSavingName(false);
     }
@@ -77,8 +83,12 @@ export default function SettingsClient() {
       } else {
         toast.success('Email updated successfully');
       }
-    } catch (err: any) {
-      toast.error(err.message || 'An error occurred');
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message || 'An error occurred');
+      } else {
+        toast.error('An error occurred');
+      }
     } finally {
       setIsSavingEmail(false);
     }
@@ -120,8 +130,12 @@ export default function SettingsClient() {
         setNewPassword('');
         setConfirmPassword('');
       }
-    } catch (err: any) {
-      toast.error(err.message || 'An error occurred');
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message || 'An error occurred');
+      } else {
+        toast.error('An error occurred');
+      }
     } finally {
       setIsSavingPassword(false);
     }

@@ -13,8 +13,8 @@ import { toast } from 'sonner';
 interface AddInterviewProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  applications: any[];
-  onInterviewAdd: (interview: any) => void;
+  applications: Record<string, unknown>[];
+  onInterviewAdd: (interview: Record<string, unknown>) => void;
 }
 
 export default function AddInterview({ open, onOpenChange, applications, onInterviewAdd }: AddInterviewProps) {
@@ -53,13 +53,13 @@ export default function AddInterview({ open, onOpenChange, applications, onInter
         toast.success('Interview scheduled successfully');
         
         // Attach the full application object to the new interview so it renders correctly
-        const selectedApp = applications.find(a => a._id === formData.applicationId);
+        const selectedApp = applications.find(a => (a._id as string) === formData.applicationId);
         const completeInterview = {
           ...result.data,
           applicationId: selectedApp
         };
         
-        onInterviewAdd(completeInterview);
+        onInterviewAdd(completeInterview as Record<string, unknown>);
         onOpenChange(false);
         setFormData({
           applicationId: '',
@@ -75,7 +75,7 @@ export default function AddInterview({ open, onOpenChange, applications, onInter
       } else {
         toast.error(result.error || 'Failed to schedule interview');
       }
-    } catch (error) {
+    } catch {
       toast.error('An error occurred');
     } finally {
       setIsSubmitting(false);
@@ -105,8 +105,8 @@ export default function AddInterview({ open, onOpenChange, applications, onInter
                     <div className="p-2 text-sm text-slate-500 text-center">No applications found</div>
                   ) : (
                     applications.map((app) => (
-                      <SelectItem key={app._id} value={app._id}>
-                        {app.company} — {app.role}
+                      <SelectItem key={app._id as string} value={app._id as string}>
+                        {app.company as string} - {app.role as string}
                       </SelectItem>
                     ))
                   )}

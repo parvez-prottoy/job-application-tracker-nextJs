@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IInterview extends Document {
   userId: string;
-  applicationId: mongoose.Types.ObjectId | any;
+  applicationId: mongoose.Types.ObjectId | string | Record<string, unknown>;
   interviewType: 'Online' | 'Phone' | 'Onsite';
   interviewDate: string;
   interviewTime: string;

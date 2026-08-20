@@ -70,9 +70,9 @@ export async function createApplication(data: Partial<KanbanItem>) {
     };
 
     return { success: true, data: createdApp as KanbanItem };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating application:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -89,8 +89,9 @@ export async function getApplications(): Promise<{
       .sort({ createdAt: -1 })
       .lean();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formattedApps = apps.map((app: any) => ({
-      id: app._id.toString(),
+      id: String(app._id),
       company: app.company,
       role: app.role,
       location: app.location || '',
@@ -109,9 +110,9 @@ export async function getApplications(): Promise<{
     }));
 
     return { success: true, data: formattedApps as KanbanItem[] };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error fetching applications:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -127,7 +128,7 @@ export async function updateApplicationStatus(
       { _id: id, userId },
       { status: newStatus },
       { new: true }
-    ).lean();
+    ).lean() as Record<string, unknown> | null;
 
     if (!app) {
       throw new Error('Application not found or unauthorized');
@@ -137,28 +138,30 @@ export async function updateApplicationStatus(
     
     // Format the application to match KanbanItem
     const updatedApp = {
-      id: (app as any)._id.toString(),
-      company: (app as any).company,
-      role: (app as any).role,
-      location: (app as any).location || '',
-      workMode: (app as any).workMode,
-      type: (app as any).type,
-      status: (app as any).status,
-      date: (app as any).date,
-      logo: (app as any).logo || '💼',
-      color: (app as any).color || 'bg-slate-100 text-slate-700',
-      deadline: (app as any).deadline,
-      priority: (app as any).priority,
-      url: (app as any).url,
-      salary: (app as any).salary,
-      contact: (app as any).contact,
-      notes: (app as any).notes,
+      id: String(app._id),
+      company: app.company,
+      role: app.role,
+      location: app.location || '',
+      workMode: app.workMode,
+      type: app.type,
+      status: app.status,
+      date: app.date,
+      logo: app.logo || '💼',
+      color: app.color || 'bg-slate-100 text-slate-700',
+      deadline: app.deadline,
+      priority: app.priority,
+      url: app.url,
+      salary: app.salary,
+      contact: app.contact,
+      notes: app.notes,
     };
 
     return { success: true, data: updatedApp as KanbanItem };
-  } catch (error: any) {
-    console.error('Error updating status:', error);
-    return { success: false, error: error.message };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+    }
+    return { success: false, error: 'Failed to update status' };
   }
 }
 
@@ -175,9 +178,9 @@ export async function deleteApplication(id: string) {
 
     revalidatePath('/dashboard', 'layout');
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting application:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -200,27 +203,27 @@ export async function updateApplication(id: string, data: Partial<KanbanItem>) {
     
     // Format the application to match KanbanItem
     const updatedApp = {
-      id: (app as any)._id.toString(),
-      company: (app as any).company,
-      role: (app as any).role,
-      location: (app as any).location || '',
-      workMode: (app as any).workMode,
-      type: (app as any).type,
-      status: (app as any).status,
-      date: (app as any).date,
-      logo: (app as any).logo || '💼',
-      color: (app as any).color || 'bg-slate-100 text-slate-700',
-      deadline: (app as any).deadline,
-      priority: (app as any).priority,
-      url: (app as any).url,
-      salary: (app as any).salary,
-      contact: (app as any).contact,
-      notes: (app as any).notes,
+      id: String(app._id),
+      company: app.company,
+      role: app.role,
+      location: app.location || '',
+      workMode: app.workMode,
+      type: app.type,
+      status: app.status,
+      date: app.date,
+      logo: app.logo || '💼',
+      color: app.color || 'bg-slate-100 text-slate-700',
+      deadline: app.deadline,
+      priority: app.priority,
+      url: app.url,
+      salary: app.salary,
+      contact: app.contact,
+      notes: app.notes,
     };
 
     return { success: true, data: updatedApp as KanbanItem };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating application:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }

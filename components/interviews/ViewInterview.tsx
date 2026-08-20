@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, Video, Phone, MapPin, ExternalLink, Building2, User, Mail, AlignLeft } from 'lucide-react';
+import { Calendar, Clock, Video, Phone, MapPin, ExternalLink, User, Mail, AlignLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { IInterviewData } from './InterviewsClient';
 
@@ -11,13 +11,13 @@ interface ViewInterviewProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   interview: IInterviewData;
-  application: any;
+  application?: Record<string, unknown>;
 }
 
 export default function ViewInterview({ open, onOpenChange, interview, application }: ViewInterviewProps) {
-  const company = application?.company || 'Unknown Company';
-  const role = application?.role || 'Unknown Role';
-  const logo = application?.logo || company.charAt(0);
+  const company = (application?.company as string) || 'Unknown Company';
+  const role = (application?.role as string) || 'Unknown Role';
+  const logo = (application?.logo as React.ReactNode) || company.charAt(0);
   const color = application?.color || 'bg-slate-100 text-slate-700';
 
   const getTypeIcon = () => {

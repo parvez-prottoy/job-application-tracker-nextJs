@@ -18,7 +18,7 @@ interface InterviewCardProps {
   interview: IInterviewData;
   onUpdate: (interview: IInterviewData) => void;
   onDelete: (id: string) => void;
-  applications: any[];
+  applications: Record<string, unknown>[];
 }
 
 export default function InterviewCard({ interview, onUpdate, onDelete, applications }: InterviewCardProps) {
@@ -28,10 +28,10 @@ export default function InterviewCard({ interview, onUpdate, onDelete, applicati
   const [isDeleting, setIsDeleting] = useState(false);
 
   const application = interview.applicationId;
-  const company = application?.company || 'Unknown Company';
-  const role = application?.role || 'Unknown Role';
-  const logo = application?.logo || company.charAt(0);
-  const color = application?.color || 'bg-slate-100 text-slate-700';
+  const company = (application as Record<string, any>)?.company || 'Unknown Company';
+  const role = (application as Record<string, any>)?.role || 'Unknown Role';
+  const logo = (application as Record<string, any>)?.logo || company.charAt(0);
+  const color = (application as Record<string, any>)?.color || 'bg-slate-100 text-slate-700';
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -44,7 +44,7 @@ export default function InterviewCard({ interview, onUpdate, onDelete, applicati
       } else {
         toast.error(res.error || 'Failed to delete interview');
       }
-    } catch (error) {
+    } catch {
       toast.error('An error occurred');
     } finally {
       setIsDeleting(false);
@@ -142,16 +142,16 @@ export default function InterviewCard({ interview, onUpdate, onDelete, applicati
       </Card>
 
       {isViewOpen && (
-        <ViewInterview open={isViewOpen} onOpenChange={setIsViewOpen} interview={interview} application={application} />
+        <ViewInterview open={isViewOpen} onOpenChange={setIsViewOpen} interview={interview as any} application={application as Record<string, unknown>} />
       )}
 
       {isEditOpen && (
         <EditInterview
           open={isEditOpen}
           onOpenChange={setIsEditOpen}
-          interview={interview}
+          interview={interview as any}
           applications={applications}
-          onUpdate={onUpdate}
+          onUpdate={onUpdate as any}
         />
       )}
 
