@@ -80,7 +80,7 @@ export default function HeroTabs() {
           className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${activeTab === 'interviews' ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
         >
           <Image
-            src="/application.png"
+            src="/interviews.png"
             alt="Interviews Preview"
             fill
             priority

@@ -91,7 +91,7 @@ export default function Navbar() {
                   <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm border border-primary/20">
                     {getInitials(session.user?.name)}
                   </div>
-                  <span className="text-sm font-semibold text-foreground max-w-[120px] truncate">
+                  <span className="text-sm font-semibold text-foreground max-w-30 truncate">
                     {session.user?.name}
                   </span>
                 </div>
@@ -166,7 +166,7 @@ export default function Navbar() {
                   <Link
                     href="/dashboard"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block w-full text-center px-4 py-3 rounded-md text-base font-medium text-white bg-primary hover:bg-primary/95 transition-all shadow-sm flex items-center justify-center gap-2"
+                    className="w-full text-center px-4 py-3 rounded-md text-base font-medium text-white bg-primary hover:bg-primary/95 transition-all shadow-sm flex items-center justify-center gap-2"
                   >
                     Go to Dashboard <ArrowRight className="w-4 h-4" />
                   </Link>
