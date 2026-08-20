@@ -4,6 +4,7 @@ import UpcomingInterviews from '@/components/dashboard/UpcomingInterviews';
 import { Button } from '@/components/ui/button';
 import { getSession } from '@/lib/auth/auth-server';
 import { getApplications } from '@/app/actions/application';
+import { getInterviews } from '@/app/actions/interview';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default async function DashboardPage() {
@@ -13,6 +14,9 @@ export default async function DashboardPage() {
   
   const applicationsResult = await getApplications();
   const applications = applicationsResult.success && applicationsResult.data ? applicationsResult.data : [];
+
+  const interviewsResult = await getInterviews();
+  const interviews = interviewsResult.success && interviewsResult.data ? interviewsResult.data : [];
   
   return (
     <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-500">
@@ -61,7 +65,7 @@ export default async function DashboardPage() {
         </div>
         <div className="xl:col-span-1 space-y-6 sm:space-y-8">
           {/* UpcomingInterviews */}
-          <UpcomingInterviews applications={applications} />
+          <UpcomingInterviews interviews={interviews} />
         </div>
       </div>
     </div>
